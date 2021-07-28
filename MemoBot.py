@@ -1,4 +1,4 @@
-# Import discord.py. Allows access to Discord's API.
+# Import discord.py. Allows access to Discord's API. Test on Files and GitIgnore.
 import discord
 
 # Import the os module.
