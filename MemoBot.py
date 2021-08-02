@@ -8,7 +8,7 @@ import asyncio
 import time
 from itertools import cycle
 from dotenv import load_dotenv
-
+from discord.ext.commands import Bot
 from random import choice
 
 youtube_dl.utils.bug_reports_message = lambda: ''
@@ -103,5 +103,72 @@ async def play(ctx, url):
 async def stop(ctx):
     voice_client = ctx.message.guild.voice_client
     await voice_client.disconnect()
+
+
+
+@bot.event
+async def on_raw_reaction_add(payload):
+    message_id = payload.message_id
+    if message_id == 870847081210843167:
+        guild_id = payload.guild_id
+        guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
+
+        if payload.emoji.name == 'mSwitch':
+            role = discord.utils.get(guild.roles, name='Switch')
+        elif payload.emoji.name == 'mPlayStation':
+            role = discord.utils.get(guild.roles, name='PlayStation')
+        elif payload.emoji.name == 'mPC':
+            role = discord.utils.get(guild.roles, name='PC')
+        elif payload.emoji.name == 'mXbox':
+            role = discord.utils.get(guild.roles, name='Xbox')
+        else:
+            role = discord.utils.get(guild.roles, name = payload.emoji.name)
+
+        if role is not None:
+            member = payload.member
+            if member is not None:
+                await member.add_roles(role)
+                print("Done")
+            else:
+                print("Member Not Found.")
+        else:
+            print("Role Not Found.")
+
+@bot.event
+async def on_raw_reaction_remove(payload):
+    message_id = payload.message_id
+    if message_id == 870847081210843167:
+        guild_id = payload.guild_id
+        guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
+
+        if payload.emoji.name == 'mSwitch':
+            role = discord.utils.get(guild.roles, name='Switch')
+        elif payload.emoji.name == 'mPlayStation':
+            role = discord.utils.get(guild.roles, name='PlayStation')
+        elif payload.emoji.name == 'mPC':
+            role = discord.utils.get(guild.roles, name='PC')
+        elif payload.emoji.name == 'mXbox':
+            role = discord.utils.get(guild.roles, name='Xbox')
+        else:
+            role = discord.utils.get(guild.roles, name = payload.emoji.name)
+
+        if role is not None:
+            member = payload.member
+            if member is not None:
+                await member.remove_roles(role)
+                print("Done")
+            else:
+                print("Member Not Found.")
+        else:
+            print("Role Not Found.")
+
+@bot.command(name='clear')
+async def clear(ctx, amount=5):
+    await ctx.channel.purge(limit=amount)
+    await ctx.send("Deleting %s Messages" %(amount))
+
+    
+
+
 
 bot.run(DISCORD_TOKEN)
