@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands, tasks
 from discord.voice_client import VoiceClient
-import youtube_dl
 import os
 import time
 import asyncio
@@ -9,7 +8,6 @@ import time
 from itertools import cycle
 from dotenv import load_dotenv
 from discord.ext.commands import Bot
-from random import choice
 import random
 
 load_dotenv()
@@ -176,13 +174,13 @@ async def rng(ctx):
 @bot.command(name="sus")
 async def sus(ctx):
     randomNum = random.randint(1,11)
-    await ctx.channel.send(file = discord.File("Sus Folder\sus"+str(randomNum)+".gif"))
+    await ctx.channel.send(file = discord.File("Among Us Gifs\sus"+str(randomNum)+".gif"))
     
 
 @bot.command(name="headpat")
 async def headpat(ctx):
     randomNum = random.randint(1,11)
-    await ctx.channel.send(file = discord.File("Head Pats\hp"+str(randomNum)+".gif"))
+    await ctx.channel.send(file = discord.File("HeadPats Gifs\hp"+str(randomNum)+".gif"))
     
  
     
