@@ -6,12 +6,15 @@ import time
 import asyncio
 import time
 from itertools import cycle
-from dotenv import load_dotenv
+import json
 from discord.ext.commands import Bot
 import random
 
-load_dotenv()
-DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+with open('discordToken.json','r') as discordFile:
+    data=discordFile.read()
+
+jsonObj = json.loads(data)
+DISCORD_TOKEN = str(jsonObj['DiscordToken'])
 bot = commands.Bot(command_prefix="!", help_command=None)
 status = ["Hello! I'm MemoBot!", "Type !Help For Commands!"]
 
