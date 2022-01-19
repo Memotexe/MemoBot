@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands, tasks
 from discord.voice_client import VoiceClient
-import os
-import time
 import asyncio
 import time
 from itertools import cycle
@@ -28,9 +26,10 @@ async def change_status():
     while True:
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Hello! Im Memobot!'))
         await asyncio.sleep(10)
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Type !Help For Commands'))
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Get Roles in Role-Selection'))
         await asyncio.sleep(10)
-
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='More Features To Come Later!'))
+        await asyncio.sleep(10)
 
 @bot.event
 async def on_member_join(member):
@@ -173,18 +172,6 @@ async def rng(ctx):
     elif randomNum == 20:
         await ctx.channel.send(str(randomNum) + " LETS GOO! CRITICAL ROLE! <a:gachihyperclap:890777869360431104>")
         
-    
-@bot.command(name="sus")
-async def sus(ctx):
-    randomNum = random.randint(1,11)
-    await ctx.channel.send(file = discord.File("Among Us Gifs\sus"+str(randomNum)+".gif"))
-    
-
-@bot.command(name="headpat")
-async def headpat(ctx):
-    randomNum = random.randint(1,11)
-    await ctx.channel.send(file = discord.File("HeadPats Gifs\hp"+str(randomNum)+".gif"))
-    
  
     
 bot.run(DISCORD_TOKEN)
