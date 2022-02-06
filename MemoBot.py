@@ -1,12 +1,13 @@
+from multiprocessing import AuthenticationError
 import discord
 from discord.ext import commands, tasks
-from discord.voice_client import VoiceClient
 import asyncio
-import time
 from itertools import cycle
 import json
 from discord.ext.commands import Bot
 import random
+from discord import FFmpegPCMAudio
+
 
 with open('discordToken.json','r') as discordFile:
     data=discordFile.read()
@@ -20,6 +21,9 @@ status = ["Hello! I'm MemoBot!", "Type !Help For Commands!"]
 async def on_ready():
     print("This lil Bob-omb is ready to assist!")
     bot.loop.create_task(change_status())
+    channel = bot.get_channel(939788377732050945)
+    bot.loop.create_task(lofi(channel))
+    
 
 
 async def change_status():
@@ -172,6 +176,17 @@ async def rng(ctx):
     elif randomNum == 20:
         await ctx.channel.send(str(randomNum) + " LETS GOO! CRITICAL ROLE! <a:gachihyperclap:890777869360431104>")
         
- 
-    
+
+async def lofi(channel):
+    while True:
+        try:
+            source = FFmpegPCMAudio('audio.mp3')
+            voice = await channel.connect()
+            voice.play(source)
+        finally:
+            await asyncio.sleep(10)
+            if voice.is_connected:
+                await asyncio.sleep(86450)
+                await voice.disconnect()
+
 bot.run(DISCORD_TOKEN)
