@@ -1,85 +1,77 @@
-from multiprocessing import AuthenticationError
-import discord
-from discord.ext import commands, tasks
-import asyncio
-from itertools import cycle
+import nextcord
+from nextcord.ext import commands, tasks
+from nextcord import member
+from nextcord import Interaction, SlashOption
+from nextcord import FFmpegPCMAudio
 import json
-from discord.ext.commands import Bot
 import random
-from discord import FFmpegPCMAudio
 
+SERVERID= 869397848125485186
 
 with open('discordToken.json','r') as discordFile:
     data=discordFile.read()
 
 jsonObj = json.loads(data)
 DISCORD_TOKEN = str(jsonObj['DiscordToken'])
-bot = commands.Bot(command_prefix="!", help_command=None)
-status = ["Hello! I'm MemoBot!", "Type !Help For Commands!"]
+client = commands.Bot(command_prefix="",)
 
-@bot.event
+
+@client.event
 async def on_ready():
     print("This lil Bob-omb is ready to assist!")
-    bot.loop.create_task(change_status())
-    channel = bot.get_channel(939788377732050945)
-    bot.loop.create_task(lofi(channel))
-    
+    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name='Type /Help for Commands'))
 
 
-async def change_status():
-    while True:
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Hello! Im Memobot!'))
-        await asyncio.sleep(10)
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Get Roles in Role-Selection'))
-        await asyncio.sleep(10)
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='More Features To Come Later!'))
-        await asyncio.sleep(10)
+# """
+# .########..########....###.....######..########.####..#######..##....##....########...#######..##.......########
+# .##.....##.##.........##.##...##....##....##.....##..##.....##.###...##....##.....##.##.....##.##.......##......
+# .##.....##.##........##...##..##..........##.....##..##.....##.####..##....##.....##.##.....##.##.......##......
+# .########..######...##.....##.##..........##.....##..##.....##.##.##.##....########..##.....##.##.......######..
+# .##...##...##.......#########.##..........##.....##..##.....##.##..####....##...##...##.....##.##.......##......
+# .##....##..##.......##.....##.##....##....##.....##..##.....##.##...###....##....##..##.....##.##.......##......
+# .##.....##.########.##.....##..######.....##....####..#######..##....##....##.....##..#######..########.########
+# """
 
-@bot.event
-async def on_member_join(member):
-    channel = discord.utils.get(member.guild.channels, name='general')
-    await channel.send('Welcome {member.mention} See `!Help` command for details!')
-
-@bot.event
+@client.event
 async def on_raw_reaction_add(payload):
     message_id = payload.message_id
     if message_id == 870847081210843167:
         guild_id = payload.guild_id
-        guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
+        guild = nextcord.utils.find(lambda g : g.id == guild_id, client.guilds)
         if payload.emoji.name == 'licker':
-            role = discord.utils.get(guild.roles, name='NSFW')
+            role = nextcord.utils.get(guild.roles, name='NSFW')
         elif payload.emoji.name == 'chieflookup':
-            role = discord.utils.get(guild.roles, name='Halo')
+            role = nextcord.utils.get(guild.roles, name='Halo')
         elif payload.emoji.name == 'bob':
-            role = discord.utils.get(guild.roles, name='Runescape')
+            role = nextcord.utils.get(guild.roles, name='Runescape')
         elif payload.emoji.name == 'minecraft_bounce':
-            role = discord.utils.get(guild.roles, name='Minecraft')
+            role = nextcord.utils.get(guild.roles, name='Minecraft')
         elif payload.emoji.name == 'aSDVstardrop':
-            role = discord.utils.get(guild.roles, name='Stardew Valley')
+            role = nextcord.utils.get(guild.roles, name='Stardew Valley')
         elif payload.emoji.name == 'switch':
-            role = discord.utils.get(guild.roles, name='Nintendo')
+            role = nextcord.utils.get(guild.roles, name='Nintendo')
         elif payload.emoji.name == '❤️':
-            role = discord.utils.get(guild.roles, name='Red')
+            role = nextcord.utils.get(guild.roles, name='Red')
         elif payload.emoji.name == '💙':
-            role = discord.utils.get(guild.roles, name='Blue')
+            role = nextcord.utils.get(guild.roles, name='Blue')
         elif payload.emoji.name == '🤎':
-            role = discord.utils.get(guild.roles, name='Brown')
+            role = nextcord.utils.get(guild.roles, name='Brown')
         elif payload.emoji.name == '💛':
-            role = discord.utils.get(guild.roles, name='Yellow')
+            role = nextcord.utils.get(guild.roles, name='Yellow')
         elif payload.emoji.name == '💚':
-            role = discord.utils.get(guild.roles, name='Green')
+            role = nextcord.utils.get(guild.roles, name='Green')
         elif payload.emoji.name == '🤍':
-            role = discord.utils.get(guild.roles, name='White')
+            role = nextcord.utils.get(guild.roles, name='White')
         elif payload.emoji.name == '💜':
-            role = discord.utils.get(guild.roles, name='Purple')
+            role = nextcord.utils.get(guild.roles, name='Purple')
         elif payload.emoji.name == '🧡':
-            role = discord.utils.get(guild.roles, name='Orange')
+            role = nextcord.utils.get(guild.roles, name='Orange')
         elif payload.emoji.name == '🖤':
-            role = discord.utils.get(guild.roles, name='Black')
+            role = nextcord.utils.get(guild.roles, name='Black')
         elif payload.emoji.name == 'pink_heart':
-            role = discord.utils.get(guild.roles, name='Pink')
+            role = nextcord.utils.get(guild.roles, name='Pink')
         else:
-            role = discord.utils.get(guild.roles, name = payload.emoji.name)
+            role = nextcord.utils.get(guild.roles, name = payload.emoji.name)
        
         if role is not None:
             member = payload.member
@@ -92,53 +84,53 @@ async def on_raw_reaction_add(payload):
         else:
             print("Role Not Found.")
 
-@bot.event
+@client.event
 async def on_raw_reaction_remove(payload):
     message_id = payload.message_id
     if message_id == 870847081210843167:
         guild_id = payload.guild_id
-        guild = discord.utils.find(lambda g : g.id == guild_id, bot.guilds)
+        guild = nextcord.utils.find(lambda g : g.id == guild_id, client.guilds)
 
         if payload.emoji.name == 'licker':
-            role = discord.utils.get(guild.roles, name='NSFW')
+            role = nextcord.utils.get(guild.roles, name='NSFW')
         elif payload.emoji.name == 'chieflookup':
-            role = discord.utils.get(guild.roles, name='Halo')
+            role = nextcord.utils.get(guild.roles, name='Halo')
         elif payload.emoji.name == 'bob':
-            role = discord.utils.get(guild.roles, name='Runescape')
+            role = nextcord.utils.get(guild.roles, name='Runescape')
         elif payload.emoji.name == 'minecraft_bounce':
-            role = discord.utils.get(guild.roles, name='Minecraft')
+            role = nextcord.utils.get(guild.roles, name='Minecraft')
         elif payload.emoji.name == 'aSDVstardrop':
-            role = discord.utils.get(guild.roles, name='Stardew Valley')
+            role = nextcord.utils.get(guild.roles, name='Stardew Valley')
         elif payload.emoji.name == 'switch':
-            role = discord.utils.get(guild.roles, name='Nintendo')
+            role = nextcord.utils.get(guild.roles, name='Nintendo')
         elif payload.emoji.name == '❤️':
-            role = discord.utils.get(guild.roles, name='Red')
+            role = nextcord.utils.get(guild.roles, name='Red')
         elif payload.emoji.name == '💙':
-            role = discord.utils.get(guild.roles, name='Blue')
+            role = nextcord.utils.get(guild.roles, name='Blue')
         elif payload.emoji.name == '🤎':
-            role = discord.utils.get(guild.roles, name='Brown')
+            role = nextcord.utils.get(guild.roles, name='Brown')
         elif payload.emoji.name == '💛':
-            role = discord.utils.get(guild.roles, name='Yellow')
+            role = nextcord.utils.get(guild.roles, name='Yellow')
         elif payload.emoji.name == '💚':
-            role = discord.utils.get(guild.roles, name='Green')
+            role = nextcord.utils.get(guild.roles, name='Green')
         elif payload.emoji.name == '🤍':
-            role = discord.utils.get(guild.roles, name='White')
+            role = nextcord.utils.get(guild.roles, name='White')
         elif payload.emoji.name == '💜':
-            role = discord.utils.get(guild.roles, name='Purple')
+            role = nextcord.utils.get(guild.roles, name='Purple')
         elif payload.emoji.name == '🧡':
-            role = discord.utils.get(guild.roles, name='Orange')
+            role = nextcord.utils.get(guild.roles, name='Orange')
         elif payload.emoji.name == '🖤':
-            role = discord.utils.get(guild.roles, name='Black')
+            role = nextcord.utils.get(guild.roles, name='Black')
         elif payload.emoji.name == 'pink_heart':
-            role = discord.utils.get(guild.roles, name='Pink')
+            role = nextcord.utils.get(guild.roles, name='Pink')
         else:
-            role = discord.utils.get(guild.roles, name = payload.emoji.name)
+            role = nextcord.utils.get(guild.roles, name = payload.emoji.name)
 
         print("Role Removed:")
         print(role)
         
         if role is not None:
-            member = await(await bot.fetch_guild(payload.guild_id)).fetch_member(payload.user_id)
+            member = await(await client.fetch_guild(payload.guild_id)).fetch_member(payload.user_id)
             print("Member Removed:")
             print(member)
             
@@ -150,43 +142,132 @@ async def on_raw_reaction_remove(payload):
         else:
             print("Role Not Found.")
 
-@bot.command(name='clear')
-@commands.has_permissions(manage_messages=True)
-async def clear(ctx, amount: int):
-    authors = {}
-    async for message in ctx.channel.history(limit=amount + 1):
-        if message.author not in authors:
-            authors[message.author] = 1
-        else:
-            authors[message.author] += 1
-        await message.delete()
+# """
+# .########.....###....##....##.########...#######..##.....##
+# .##.....##...##.##...###...##.##.....##.##.....##.###...###
+# .##.....##..##...##..####..##.##.....##.##.....##.####.####
+# .########..##.....##.##.##.##.##.....##.##.....##.##.###.##
+# .##...##...#########.##..####.##.....##.##.....##.##.....##
+# .##....##..##.....##.##...###.##.....##.##.....##.##.....##
+# .##.....##.##.....##.##....##.########...#######..##.....##
+# """
 
-    msg = "I took out the trash for you!"
-    await ctx.channel.send(msg)   
-
-@bot.command(name="d20")
-async def rng(ctx):
+@client.slash_command(guild_ids=[SERVERID], description="Rolls a Digital D20 for you!")
+async def d20(interaction:Interaction):
     randomNum = random.randint(1,20)
     if randomNum == 1:
-        await ctx.channel.send(str(randomNum) + " Critical Fail! <a:F_:925511019655200841>")
+        await interaction.response.send_message(str(randomNum) + " Critical Fail! <a:F_:925511019655200841>")
     elif randomNum <= 10 and randomNum > 1:
-        await ctx.channel.send(str(randomNum) + " Yikes! Thats not a good role <:tanjiroD:925511021261631528>")
+        await interaction.response.send_message(str(randomNum) + " Yikes! Thats not a good role <:tanjiroD:925511021261631528>")
     elif randomNum >=11 and randomNum < 20:
-        await ctx.channel.send(str(randomNum) + " Ok! Thats a good role <a:gachi:926278637341245471>")
+        await interaction.response.send_message(str(randomNum) + " Ok! Thats a good role <a:gachi:926278637341245471>")
     elif randomNum == 20:
-        await ctx.channel.send(str(randomNum) + " LETS GOO! CRITICAL ROLE! <a:gachihyperclap:890777869360431104>")
-        
+        await interaction.response.send_message(str(randomNum) + " LETS GOO! CRITICAL ROLE! <a:gachihyperclap:890777869360431104>")
 
-async def lofi(channel):
-    while True:
-        try:
-            source = FFmpegPCMAudio('audio.mp3')
-            voice = await channel.connect()
-            voice.play(source)
-        finally:
-            await asyncio.sleep(10)
-            if voice.is_connected:
-                await asyncio.sleep(86450)
-                await voice.disconnect()
+# """
+# .##.....##.##.....##..######..####..######.
+# .###...###.##.....##.##....##..##..##....##
+# .####.####.##.....##.##........##..##......
+# .##.###.##.##.....##..######...##..##......
+# .##.....##.##.....##.......##..##..##......
+# .##.....##.##.....##.##....##..##..##....##
+# .##.....##..#######...######..####..######.
+# """
 
-bot.run(DISCORD_TOKEN)
+@client.slash_command(guild_ids=[SERVERID], description="Plays Lofi! Options: Pokemon, Japan, Morning, Coding")
+async def lofi(interaction:Interaction , arg):
+    channel = client.get_channel(939788377732050945)
+    if(arg.lower() == "japan"):
+        voice = await channel.connect()
+        source = FFmpegPCMAudio('japanLofi.mp3')
+        voice.play(source)
+        await interaction.response.send_message("Now playing Japan Lofi")
+    elif(arg.lower() == "morning"):
+        voice = await channel.connect()
+        source = FFmpegPCMAudio('morningLofi.mp3')
+        voice.play(source)
+        await interaction.response.send_message("Now playing Morning Lofi")
+    elif(arg.lower() == "coding"):
+        voice = await channel.connect()
+        source = FFmpegPCMAudio('codingLofi.mp3')
+        voice.play(source)
+        await interaction.response.send_message("Now playing Coding Lofi")
+    else:
+       await interaction.response.send_message("Please choose a valid option") 
+
+
+@client.slash_command(guild_ids=[SERVERID], description="Tells the Bot to Leave the Lofi VC")
+async def leave(interaction: Interaction):
+    if(interaction.guild.voice_client):
+        await interaction.guild.voice_client.disconnect()
+        await interaction.response.send_message("goodbye")
+    else:
+        await interaction.response.send_message("I'm not in a VC")
+
+@client.slash_command(guild_ids=[SERVERID], description="Tells the Bot to Pause the Lofi")
+async def pause(interaction: Interaction):
+    voice = nextcord.utils.get(client.voice_clients,guild=interaction.guild)
+    if voice.is_playing():
+        voice.pause()
+        await interaction.response.send_message("paused")
+    else:
+        await interaction.response.send_message("Sorry, but no music is playing.")
+
+@client.slash_command(guild_ids=[SERVERID], description="Tells the Bot to Resume the Lofi")
+async def resume(interaction: Interaction):
+    voice = nextcord.utils.get(client.voice_clients,guild=interaction.guild)
+    if voice.is_paused():
+        voice.resume()
+        await interaction.response.send_message("resumed")
+    else:
+        await interaction.response.send_message("Sorry, but there is no paused music.") 
+ 
+
+# """
+# .##.....##..#######..########..########.########.....###....########.####..#######..##....##
+# .###...###.##.....##.##.....##.##.......##.....##...##.##......##.....##..##.....##.###...##
+# .####.####.##.....##.##.....##.##.......##.....##..##...##.....##.....##..##.....##.####..##
+# .##.###.##.##.....##.##.....##.######...########..##.....##....##.....##..##.....##.##.##.##
+# .##.....##.##.....##.##.....##.##.......##...##...#########....##.....##..##.....##.##..####
+# .##.....##.##.....##.##.....##.##.......##....##..##.....##....##.....##..##.....##.##...###
+# .##.....##..#######..########..########.##.....##.##.....##....##....####..#######..##....##
+# """
+
+
+# """
+# .########.########..########...#######..########.....##.....##....###....##....##.########..##.......########.########...######.
+# .##.......##.....##.##.....##.##.....##.##.....##....##.....##...##.##...###...##.##.....##.##.......##.......##.....##.##....##
+# .##.......##.....##.##.....##.##.....##.##.....##....##.....##..##...##..####..##.##.....##.##.......##.......##.....##.##......
+# .######...########..########..##.....##.########.....#########.##.....##.##.##.##.##.....##.##.......######...########...######.
+# .##.......##...##...##...##...##.....##.##...##......##.....##.#########.##..####.##.....##.##.......##.......##...##.........##
+# .##.......##....##..##....##..##.....##.##....##.....##.....##.##.....##.##...###.##.....##.##.......##.......##....##..##....##
+# .########.##.....##.##.....##..#######..##.....##....##.....##.##.....##.##....##.########..########.########.##.....##..######.
+# """
+
+@client.event
+async def on_command_error(ctx,error):
+    if isinstance(error,commands.MissingPermissions):
+        await ctx.send("You are not allowed to use that command")
+
+
+# """
+# .########.##.....##.########..########.########.....########.########.##.....##.########..##..........###....########.########
+# .##.......###...###.##.....##.##.......##.....##.......##....##.......###...###.##.....##.##.........##.##......##....##......
+# .##.......####.####.##.....##.##.......##.....##.......##....##.......####.####.##.....##.##........##...##.....##....##......
+# .######...##.###.##.########..######...##.....##.......##....######...##.###.##.########..##.......##.....##....##....######..
+# .##.......##.....##.##.....##.##.......##.....##.......##....##.......##.....##.##........##.......#########....##....##......
+# .##.......##.....##.##.....##.##.......##.....##.......##....##.......##.....##.##........##.......##.....##....##....##......
+# .########.##.....##.########..########.########........##....########.##.....##.##........########.##.....##....##....########
+# """
+@client.command()
+async def embed(ctx):
+    embed = nextcord.Embed(title="Title",url="https://google.com", description="Description", color=0x343190)
+    embed.set_author(name=ctx.author.display_name, url="https://twitter.com", icon_url=ctx.author.avatar_url)
+    embed.set_thumbnail(url="https://instagram.com")
+    embed.add_field(name="Field 1", value="Value 1", inline=True)
+    embed.add_field(name="Field 2", value="Value 2", inline=True)
+    embed.set_footer(text="Footer")
+    await ctx.send(embed=embed)
+
+
+client.run(DISCORD_TOKEN)
