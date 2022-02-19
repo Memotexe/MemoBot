@@ -3,6 +3,7 @@ from nextcord.ext import commands, tasks
 from nextcord import member
 from nextcord import Interaction, SlashOption
 from nextcord import FFmpegPCMAudio
+from contextlib import suppress
 import json
 import random
 
@@ -160,9 +161,10 @@ async def d20(interaction:Interaction):
     elif randomNum <= 10 and randomNum > 1:
         await interaction.response.send_message(str(randomNum) + " Yikes! Thats not a good role <:tanjiroD:925511021261631528>")
     elif randomNum >=11 and randomNum < 20:
-        await interaction.response.send_message(str(randomNum) + " Ok! Thats a good role <a:gachi:926278637341245471>")
+        await interaction.response.send_message(str(randomNum) + " Ok! Thats a  good role <a:gachi:926278637341245471>")
     elif randomNum == 20:
         await interaction.response.send_message(str(randomNum) + " LETS GOO! CRITICAL ROLE! <a:gachihyperclap:890777869360431104>")
+
 
 # """
 # .##.....##.##.....##..######..####..######.
@@ -174,53 +176,62 @@ async def d20(interaction:Interaction):
 # .##.....##..#######...######..####..######.
 # """
 
+#Friday Night Yakuza
+
 @client.slash_command(guild_ids=[SERVERID], description="Plays Lofi! Options: Pokemon, Japan, Morning, Coding")
 async def lofi(interaction:Interaction , arg):
-    channel = client.get_channel(939788377732050945)
-    if(arg.lower() == "japan"):
-        voice = await channel.connect()
-        source = FFmpegPCMAudio('japanLofi.mp3')
-        voice.play(source)
-        await interaction.response.send_message("Now playing Japan Lofi")
-    elif(arg.lower() == "morning"):
-        voice = await channel.connect()
-        source = FFmpegPCMAudio('morningLofi.mp3')
-        voice.play(source)
-        await interaction.response.send_message("Now playing Morning Lofi")
-    elif(arg.lower() == "coding"):
-        voice = await channel.connect()
-        source = FFmpegPCMAudio('codingLofi.mp3')
-        voice.play(source)
-        await interaction.response.send_message("Now playing Coding Lofi")
-    else:
-       await interaction.response.send_message("Please choose a valid option") 
+    with suppress(Exception):
+        channel = client.get_channel(939788377732050945)
+        if(arg.lower() == "japan"):
+            voice = await channel.connect()
+            source = FFmpegPCMAudio('japanLofi.mp3')
+            voice.play(source)
+            await interaction.response.send_message("Now playing Japan Lofi")
+        elif(arg.lower() == "morning"):
+            voice = await channel.connect()
+            source = FFmpegPCMAudio('morningLofi.mp3')
+            voice.play(source)
+            await interaction.response.send_message("Now playing Morning Lofi")
+        elif(arg.lower() == "coding"):
+            voice = await channel.connect()
+            source = FFmpegPCMAudio('codingLofi.mp3')
+            voice.play(source)
+            await interaction.response.send_message("Now playing Coding Lofi")
+        else:
+            await interaction.response.send_message("Please choose a valid option") 
 
 
 @client.slash_command(guild_ids=[SERVERID], description="Tells the Bot to Leave the Lofi VC")
 async def leave(interaction: Interaction):
-    if(interaction.guild.voice_client):
-        await interaction.guild.voice_client.disconnect()
-        await interaction.response.send_message("goodbye")
-    else:
-        await interaction.response.send_message("I'm not in a VC")
+    with suppress(Exception):
+        try:
+            if(interaction.guild.voice_client):
+                await interaction.guild.voice_client.disconnect()
+                await interaction.response.send_message("goodbye")
+        finally:
+            await interaction.response.send_message("I'm not in a VC")
 
 @client.slash_command(guild_ids=[SERVERID], description="Tells the Bot to Pause the Lofi")
 async def pause(interaction: Interaction):
     voice = nextcord.utils.get(client.voice_clients,guild=interaction.guild)
-    if voice.is_playing():
-        voice.pause()
-        await interaction.response.send_message("paused")
-    else:
-        await interaction.response.send_message("Sorry, but no music is playing.")
+    with suppress(Exception):
+        try:
+            if voice.is_playing():
+                voice.pause()
+                await interaction.response.send_message("paused")
+        finally:
+            await interaction.response.send_message("Sorry, but no music is playing.")
 
 @client.slash_command(guild_ids=[SERVERID], description="Tells the Bot to Resume the Lofi")
 async def resume(interaction: Interaction):
     voice = nextcord.utils.get(client.voice_clients,guild=interaction.guild)
-    if voice.is_paused():
-        voice.resume()
-        await interaction.response.send_message("resumed")
-    else:
-        await interaction.response.send_message("Sorry, but there is no paused music.") 
+    with suppress(Exception):
+        try:
+            if voice.is_paused():
+                voice.resume()
+                await interaction.response.send_message("resumed")
+        finally:
+            await interaction.response.send_message("Sorry, but there is no paused music.") 
  
 
 # """
@@ -232,7 +243,6 @@ async def resume(interaction: Interaction):
 # .##.....##.##.....##.##.....##.##.......##....##..##.....##....##.....##..##.....##.##...###
 # .##.....##..#######..########..########.##.....##.##.....##....##....####..#######..##....##
 # """
-
 
 # """
 # .########.########..########...#######..########.....##.....##....###....##....##.########..##.......########.########...######.
