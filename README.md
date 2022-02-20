@@ -1,4 +1,4 @@
-# Porygon-B
+# Porygon-D
 Discord bot named **Porygon-D** created using [Nextcord](https://github.com/nextcord/nextcord), a discord.py wrapper, using [Python v3.10.0](https://www.python.org/downloads/release/python-3100/).
 
 ![Porygon-D](https://pbs.twimg.com/profile_images/1530033914/137porygon_200x200.png)
