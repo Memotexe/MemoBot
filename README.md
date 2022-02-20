@@ -19,8 +19,6 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
 ```
 **NOTE:** Its important to mention the work I've done was on Python `v3.10.0`, I cannot gaurantee that any other version of Python will work
 
-
-
 ## Client Listeners:
 * Reaction Roles:
   - When a user adds or removes a specific reaction on a defined message in the server it will manage the user's roles by adding or removing them from it. The server uses role reactions to limit what people wish to see on the server by topics/games that interest them.
@@ -34,9 +32,14 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
    - Leave: Tells the bot to leave the VC (Voice Channel)
 * Dice ; arg (Sides):
   - Its as it seems, give this bot the argument of the sided dice you wish to roll and it will give you a result!
-* Friday:
+* Friday ; arg (Member):
   - A command to only be called on Friday >.>
-
+* Purge ; arg (Amount):
+  - Given the amount, it will delete messages in the channel it was called in.
+* Help:
+  - Responds with a embedded message giving all the commands that Porygon has with a description about them.
+* Riro ; arg (Member):
+  - Only if the stars align will this work.
 
 ## To-Do's:
 * Large Features:
@@ -46,5 +49,4 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
   - Enhanced Ban and Kick
   - Message Watcher(Protection against harsh/profanity-based word usage)
 * Etc Features:
-  - Help Command
-  - R&R Command Hint:Never Gonna Give You Up
+  - Party Listener: Only IF its seen and the roll is equal

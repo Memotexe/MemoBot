@@ -7,6 +7,10 @@ from contextlib import suppress
 import json
 import random
 from datetime import date
+import math, decimal, datetime
+dec = decimal.Decimal
+
+
 
 SERVERID= 869397848125485186
 
@@ -21,7 +25,7 @@ client = commands.Bot(command_prefix="")
 @client.event
 async def on_ready():
     print("Porygon is up and running!")
-    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name='Type /Help for Commands'))
+    await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name='Type /Help for Commands'))
 
 
 # """
@@ -226,6 +230,29 @@ async def friday(interaction: Interaction, member: nextcord.Member):
         else:
             await interaction.response.send_message("It's Not Friday!")
 
+@client.slash_command(guild_ids=[SERVERID], description="Never going to give you up!")
+async def riro(interaction: Interaction, member: nextcord.Member):
+            now = datetime.datetime.now()
+            diff = now - datetime.datetime(2001, 1, 1)
+            days = dec(diff.days) + (dec(diff.seconds) / dec(86400))
+            lunations = dec("0.20439731") + (days * dec("0.03386319269"))
+            pos = lunations % dec(1)
+            index = (pos * dec(8)) + dec("0.5")
+            index = math.floor(index)
+            if index == 4:
+                try:
+                    channel = member.voice.channel
+                    if channel:#value or Null
+                        voice = await channel.connect()
+                        source = FFmpegPCMAudio('never.mp3')
+                        voice.play(source)
+                        await interaction.response.send_message(f"{member} got memed <a:gachihyperclap:890777869360431104>")
+                finally:
+                    await interaction.response.send_message("You're not in a VC")
+       
+            await interaction.response.send_message("Now is not the time. Try again later, maybe when the stars allign?")
+
+
 # """
 # .##.....##.##.....##..######..####..######.
 # .###...###.##.....##.##....##..##..##....##
@@ -315,41 +342,21 @@ async def purge(interaction: Interaction, amount: int):
 
 #CHECK FOR UNWELCOME PROFANITY
 #ENHANCE BAN OR KICK
-#HELP COMMAND
 
-
-# @client.command(pass_context=True)
-# async def help(ctx):
-#     author = ctx.message.author
-
-#     embed = discord.Embed(
-#         color=discord.Colour.orange()
-#     )
-
-#     embed.set_author(name="Help")
-#     embed.add_field(name="!clear (Enter number from 1-100)", value='Clears as many messages asked up til 14 days.',
-#                     inline=False)
-#     embed.add_field(name="!help", value='Direct Messages you the command list.',
-#                     inline=False)
-#     embed.add_field(name="!stop",
-#                     value='Amadeus will stop the music completely and leave the voice channel you are in.',
-#                     inline=False)
-#     embed.add_field(name="!play", value='Amadeus will play a youtube link url.',
-#                     inline=False)
-#     embed.add_field(name="!queue", value='Amadeus will add the song/video to the player queue.',
-#                     inline=False)
-#     embed.add_field(name="!skip", value='Amadeus will skip the song.',
-#                     inline=False)
-#     embed.add_field(name="!pause", value='Amadeus will pause the music for you.',
-#                     inline=False)
-#     embed.add_field(name="!resume", value='Amadeus will resume the music for you.',
-#                     inline=False)
-#     embed.add_field(name="!leave", value='Amadeus will leave the voice channel you are in.',
-#                     inline=False)
-#     embed.add_field(name="!baka", value='Amadeus will help you call your friend an idiot!.',
-#                     inline=False)
-
-#     await author.channel.send(embed)
+@client.slash_command(guild_ids=[SERVERID], description="Provides you with the information available about commands with Porygon-B")
+async def help(interaction:Interaction):
+    embed = nextcord.Embed(title="Porygon-B",url="https://github.com/Memotexe/Porygon-B", description="Programmed in Python using Nextcord", color=0x83b7f7)
+    embed.set_author(name="Memotexe", url="https://github.com/Memotexe")
+    embed.set_thumbnail(url="https://pbs.twimg.com/profile_images/1530033914/137porygon_200x200.png")
+    embed.add_field(name="/Lofi", value="Arg: (Pokemon, Morning, Coding, Japan) :: Porygon-B will then join the Lofi VC in the Server with the Genre you selected",inline=False)
+    embed.add_field(name="/Pause", value="Pauses the Lofi Music",inline=True)
+    embed.add_field(name="/Resume", value="Resumes the Lofi Music",inline=True)
+    embed.add_field(name="/Leave", value="Leaves the Lofi VC when called",inline=True)
+    embed.add_field(name="/Friday", value="Arg: @(Member) :: Its a Friday Thing",inline=False)
+    embed.add_field(name="/Dice", value="Arg: (3,6,8,10,12,20) :: Porygon will roll a virtual dice based on the dice you chose.",inline=False)
+    embed.add_field(name="/Purge", value="Arg: Amount :: Only Works if you are a Mod, but will clear messages given the amount provided",inline=False)
+    embed.set_footer(text="If you have any command suggestions let me know! - Memotexe")
+    await interaction.response.send_message(embed=embed)
 
 # """
 # .########.########..########...#######..########.....##.....##....###....##....##.########..##.......########.########...######.
@@ -362,29 +369,9 @@ async def purge(interaction: Interaction, amount: int):
 # """
 
 @client.event
-async def on_command_error(ctx,error):
+async def on_command_error(interaction:Interaction,error):
     if isinstance(error,commands.MissingPermissions):
-        await ctx.send("You are not allowed to use that command")
-
-
-# """
-# .########.##.....##.########..########.########.....########.########.##.....##.########..##..........###....########.########
-# .##.......###...###.##.....##.##.......##.....##.......##....##.......###...###.##.....##.##.........##.##......##....##......
-# .##.......####.####.##.....##.##.......##.....##.......##....##.......####.####.##.....##.##........##...##.....##....##......
-# .######...##.###.##.########..######...##.....##.......##....######...##.###.##.########..##.......##.....##....##....######..
-# .##.......##.....##.##.....##.##.......##.....##.......##....##.......##.....##.##........##.......#########....##....##......
-# .##.......##.....##.##.....##.##.......##.....##.......##....##.......##.....##.##........##.......##.....##....##....##......
-# .########.##.....##.########..########.########........##....########.##.....##.##........########.##.....##....##....########
-# """
-@client.command()
-async def embed(ctx):
-    embed = nextcord.Embed(title="Title",url="https://google.com", description="Description", color=0x343190)
-    embed.set_author(name=ctx.author.display_name, url="https://twitter.com", icon_url=ctx.author.avatar_url)
-    embed.set_thumbnail(url="https://instagram.com")
-    embed.add_field(name="Field 1", value="Value 1", inline=True)
-    embed.add_field(name="Field 2", value="Value 2", inline=True)
-    embed.set_footer(text="Footer")
-    await ctx.send(embed=embed)
+        await interaction.response.send_message("You are not allowed to use that command")
 
 
 client.run(DISCORD_TOKEN)
