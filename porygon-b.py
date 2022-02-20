@@ -10,8 +10,6 @@ from datetime import date
 import math, decimal, datetime
 dec = decimal.Decimal
 
-
-
 SERVERID= 869397848125485186
 
 with open('discordToken.json','r') as discordFile:
@@ -220,7 +218,7 @@ async def friday(interaction: Interaction, member: nextcord.Member):
         if date.today().isoweekday() == 5:
             try:
                 channel = member.voice.channel
-                if channel:#value or Null
+                if channel:
                     voice = await channel.connect()
                     source = FFmpegPCMAudio('friday.mp3')
                     voice.play(source)
@@ -230,7 +228,7 @@ async def friday(interaction: Interaction, member: nextcord.Member):
         else:
             await interaction.response.send_message("It's Not Friday!")
 
-@client.slash_command(guild_ids=[SERVERID], description="Never going to give you up!")
+@client.slash_command(guild_ids=[SERVERID], description="I'll never give you up!")
 async def riro(interaction: Interaction, member: nextcord.Member):
             now = datetime.datetime.now()
             diff = now - datetime.datetime(2001, 1, 1)
@@ -242,15 +240,21 @@ async def riro(interaction: Interaction, member: nextcord.Member):
             if index == 4:
                 try:
                     channel = member.voice.channel
-                    if channel:#value or Null
+                    if channel:
                         voice = await channel.connect()
                         source = FFmpegPCMAudio('never.mp3')
                         voice.play(source)
-                        await interaction.response.send_message(f"{member} got memed <a:gachihyperclap:890777869360431104>")
+                        await interaction.response.send_message(f"{member} just got memed <a:gachihyperclap:890777869360431104>")
                 finally:
                     await interaction.response.send_message("You're not in a VC")
        
             await interaction.response.send_message("Now is not the time. Try again later, maybe when the stars allign?")
+
+@client.event
+async def on_message(message):
+    partyChance = random.randint(0,150)
+    if message.content.lower() == "party" and partyChance == 69:
+        await message.channel.send("Did someone say party!?",file=nextcord.File('party.mp4'))
 
 
 # """
