@@ -32,8 +32,8 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
    - Pause: Pauses the music
    - Resume: Resumes the music
    - Leave: Tells the bot to leave the VC (Voice Channel)
-* D20:
-  - Its as it seems, this command will randomly roll a D20 for you and produce your results!
+* DnD Dice:
+  - Its as it seems, give this bot the argument of the sided dice you wish to roll and it will give you a result!
 * Friday:
   - A command to only be called on Friday >.>
 
