@@ -349,7 +349,7 @@ async def purge(interaction: Interaction, amount: int):
 
 @client.slash_command(guild_ids=[SERVERID], description="Provides you with the information available about commands with Porygon-B")
 async def help(interaction:Interaction):
-    embed = nextcord.Embed(title="Porygon-B",url="https://github.com/Memotexe/Porygon-B", description="Programmed in Python using Nextcord", color=0x83b7f7)
+    embed = nextcord.Embed(title="Porygon",url="https://github.com/Memotexe/Porygon-D", description="Programmed in Python using Nextcord", color=0x83b7f7)
     embed.set_author(name="Memotexe", url="https://github.com/Memotexe")
     embed.set_thumbnail(url="https://pbs.twimg.com/profile_images/1530033914/137porygon_200x200.png")
     embed.add_field(name="/Lofi", value="Arg: (Pokemon, Morning, Coding, Japan) :: Porygon-B will then join the Lofi VC in the Server with the Genre you selected",inline=False)
