@@ -250,11 +250,10 @@ async def riro(interaction: Interaction, member: nextcord.Member):
        
             await interaction.response.send_message("Now is not the time. Try again later, maybe when the stars allign?")
 
-#Reads only "party" and the random doesnt take place
 @client.event
 async def on_message(message):
-    partyChance = random.randint(0,150)
-    if message.content == "party" and partyChance == 69:
+    partyChance =random.randint(0,100)
+    if "party" in message.content and partyChance == 69:
         await message.channel.send("Did someone say party!?",file=nextcord.File('party.mp4'))
 
 
