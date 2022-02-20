@@ -154,17 +154,61 @@ async def on_raw_reaction_remove(payload):
 # .##.....##.##.....##.##....##.########...#######..##.....##.##.......##.....##.########.##.....##.########..######.
 # """
 
-@client.slash_command(guild_ids=[SERVERID], description="Rolls a Digital D20 for you!")
-async def d20(interaction:Interaction):
-    randomNum = random.randint(1,20)
-    if randomNum == 1:
-        await interaction.response.send_message(str(randomNum) + " Critical Fail! <a:F_:925511019655200841>")
-    elif randomNum <= 10 and randomNum > 1:
-        await interaction.response.send_message(str(randomNum) + " Thats not a good roll <:tanjiroD:925511021261631528>")
-    elif randomNum >=11 and randomNum < 20:
-        await interaction.response.send_message(str(randomNum) + " Thats a good roll <a:gachi:926278637341245471>")
-    elif randomNum == 20:
-        await interaction.response.send_message(str(randomNum) + " CRITICAL ROLL! <a:gachihyperclap:890777869360431104>")
+@client.slash_command(guild_ids=[SERVERID], description="Rolls a Digital Dice for you for you!")
+async def d20(interaction:Interaction, arg):
+    
+    if(arg == "20"):
+        randomNum = random.randint(1,20)
+        if randomNum == 1:
+            await interaction.response.send_message(str(randomNum) + ": Critical Fail! <a:F_:925511019655200841>")
+        elif randomNum <= 10 and randomNum > 1:
+            await interaction.response.send_message(str(randomNum) + ": Thats not a good roll <:tanjiroD:925511021261631528>")
+        elif randomNum >=11 and randomNum < 20:
+            await interaction.response.send_message(str(randomNum) + ": Thats a good roll <a:gachi:926278637341245471>")
+        elif randomNum == 20:
+            await interaction.response.send_message(str(randomNum) + ": CRITICAL ROLL! <a:gachihyperclap:890777869360431104>")
+    elif(arg == "3"):
+        randomNum = random.randint(1,3)
+        if randomNum == 1:
+            await interaction.response.send_message(str(randomNum) + ": OOF! Thats a 1 <a:F_:925511019655200841>")
+        elif randomNum == 2:
+            await interaction.response.send_message(str(randomNum) + ": I mean 2 is greater than 1 <a:gachi:926278637341245471>")
+        elif randomNum == 3:
+            await interaction.response.send_message(str(randomNum) + ": WOOOO BABY! THATS WHAT IM TALKING ABOUT! <a:gachihyperclap:890777869360431104>")
+    elif(arg == "6"):
+        randomNum = random.randint(1,6)
+        if randomNum == 1:
+            await interaction.response.send_message(str(randomNum) + ": A 1 on a 6 sided dice? yikes... <a:F_:925511019655200841>")
+        elif randomNum >=2 and randomNum <= 5:
+            await interaction.response.send_message(str(randomNum) + ": Your roll was... average I guess <:tanjiroD:925511021261631528>")
+        elif randomNum == 6:
+            await interaction.response.send_message(str(randomNum) + ": HIGHEST ROLL! <a:gachihyperclap:890777869360431104>")
+    elif(arg == "8"):
+        randomNum = random.randint(1,8)
+        if randomNum == 1:
+            await interaction.response.send_message(str(randomNum) + ": How do i explain this... Your roll sucked <a:F_:925511019655200841>")
+        elif randomNum >=2 and randomNum <= 7:
+            await interaction.response.send_message(str(randomNum) + ": cool, not perfect but not awful! <:tanjiroD:925511021261631528>")
+        elif randomNum == 8:
+            await interaction.response.send_message(str(randomNum) + ": if thats for damage, Good roll! <a:gachihyperclap:890777869360431104>")
+    elif(arg == "10"):
+        randomNum = random.randint(0,9)
+        if randomNum == 0:
+            await interaction.response.send_message(str(randomNum) + ": You got a 0, like, if there was negative numbers. You would have probably gotten that. <a:F_:925511019655200841>")
+        elif randomNum >=1 and randomNum <= 8:
+            await interaction.response.send_message(str(randomNum) + ": good! You didnt fail, but... whats this dice even for? <:tanjiroD:925511021261631528>")
+        elif randomNum == 9:
+            await interaction.response.send_message(str(randomNum) + ": Aye, thats a 9! That will do something good... right? <a:gachihyperclap:890777869360431104>")
+    elif(arg == "12"):
+        randomNum = random.randint(1,12)
+        if randomNum == 1:
+            await interaction.response.send_message(str(randomNum) + ": The return of 1! You might as well put the dice in jail right <a:F_:925511019655200841>")
+        elif randomNum >=2 and randomNum <= 11:
+            await interaction.response.send_message(str(randomNum) + ": hopefully this is in your favor! <:tanjiroD:925511021261631528>")
+        elif randomNum == 12:
+            await interaction.response.send_message(str(randomNum) + ": You got a 12, do you want praise? go somewhere else <a:gachihyperclap:890777869360431104>")
+    else:
+        await interaction.response.send_message("Please choose from the options here for dice to roll: 3,6,8,10,12,20")
 
 @client.slash_command(guild_ids=[SERVERID], description="Only a Friday Thing")
 async def friday(interaction: Interaction, member: nextcord.Member):
@@ -263,17 +307,12 @@ async def resume(interaction: Interaction):
 # .##.....##..#######..########..########.##.....##.##.....##....##....####..#######..##....##
 # """
 
-# @client.command(pass_context=True)
-# async def clear(ctx, amount=100):
-#     channel = ctx.message.channel
-#     messages = []
-#     async for message in client.logs_from(channel, limit=int(amount) + 1):
-#         messages.append(message)
-#     await client.delete_messages(messages)
-#     await client.say("I took out the trash for you!")
+@client.slash_command(guild_ids=[SERVERID], description="Clears Messages based on amount given")
+@commands.has_permissions(manage_messages=True)
+async def purge(interaction: Interaction, amount: int):
+    await interaction.channel.purge(limit = amount)
+    await interaction.response.send_message(f"Trash was taken out. {amount} messages deleted")
 
-#LIST OF MODERATION COMMANDS
-#CLEAR
 #CHECK FOR UNWELCOME PROFANITY
 #ENHANCE BAN OR KICK
 #HELP COMMAND

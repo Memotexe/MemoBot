@@ -51,6 +51,14 @@ coverage.xml
 .pytest_cache/
 cover/
 
+#Music/Video File
+*.mp4
+*.mp3
+*.m4a
+
+#JSON Files
+*.json
+
 # Translations
 *.mo
 *.pot
@@ -137,5 +145,3 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-.idea/*
-audio.mp3

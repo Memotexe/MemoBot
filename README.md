@@ -1,5 +1,5 @@
 # Porygon-B
-Discord bot named **Porygon-B** created using [Nextcord](https://github.com/nextcord/nextcord), a discord.py wrapper for [Python v3.10.0](https://www.python.org/downloads/release/python-3100/).
+Discord bot named **Porygon-B** created using [Nextcord](https://github.com/nextcord/nextcord), a discord.py wrapper, using [Python v3.10.0](https://www.python.org/downloads/release/python-3100/).
 
 ![Porygon-B](https://pbs.twimg.com/profile_images/1530033914/137porygon_200x200.png)
 
@@ -17,7 +17,7 @@ pip install -U nextcord :: pip3 install -U nextcord :: py -3 -m pip install -U n
 
 pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m pip install -U nextcord[voice]
 ```
-**NOTE:** Its important to mention the work I've done was on Python `v3.10.0`, I cannot gaurantee that any other version 
+**NOTE:** Its important to mention the work I've done was on Python `v3.10.0`, I cannot gaurantee that any other version of Python will work
 
 
 
@@ -40,12 +40,11 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
 
 ## To-Do's:
 * Large Features:
-  - Creation of Pokedex command that will listen for the pokemon and return an embed of some light information along with links to Serebii's Page
+  - Creation of Pokedex Command that will listen for the pokemon and return an embed of some light information along with links to Serebii's Page
+  - Stack Overflow Quick Answer Command
 * Moderation Features:
   - Enhanced Ban and Kick
-  - Clear Messages Command
   - Message Watcher(Protection against harsh/profanity-based word usage)
 * Etc Features:
   - Help Command
-  - Turn D20 command into any DnD Dice based on arg
   - R&R Command Hint:Never Gonna Give You Up
