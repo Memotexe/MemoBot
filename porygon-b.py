@@ -154,8 +154,8 @@ async def on_raw_reaction_remove(payload):
 # .##.....##.##.....##.##....##.########...#######..##.....##.##.......##.....##.########.##.....##.########..######.
 # """
 
-@client.slash_command(guild_ids=[SERVERID], description="Rolls a Digital Dice for you for you!")
-async def d20(interaction:Interaction, arg):
+@client.slash_command(guild_ids=[SERVERID], description="Rolls a Digital Dice for you! Choose between 3,6 ,8 ,10 ,12 , and 20")
+async def dice(interaction:Interaction, arg):
     
     if(arg == "20"):
         randomNum = random.randint(1,20)
