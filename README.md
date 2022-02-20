@@ -48,5 +48,3 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
 * Moderation Features:
   - Enhanced Ban and Kick
   - Message Watcher(Protection against harsh/profanity-based word usage)
-* Etc Features:
-  - Party Listener: Only IF its seen and the roll is equal
