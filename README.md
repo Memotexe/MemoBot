@@ -12,6 +12,8 @@ pip3 install -U nextcord
 pip3 install -U "nextcord[voice]"
 
 pip3 install stackapi
+
+pip3 install pandas
 ```
 *Windows:*
 ```
@@ -20,6 +22,8 @@ pip install -U nextcord :: pip3 install -U nextcord :: py -3 -m pip install -U n
 pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m pip install -U nextcord[voice]
 
 pip install stackapi
+
+pip install pandas
 ```
 **NOTE:** Its important to mention the work I've done was on Python `v3.10.0`, I cannot gaurantee that any other version of Python will work
 
