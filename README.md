@@ -7,11 +7,11 @@ Discord bot named **Porygon-D** created using [Nextcord](https://github.com/next
 
 *Linux/macOS:*
 ```
-python3 -m pip install -U nextcord
+pip3 install -U nextcord
  
-python3 -m pip install -U "nextcord[voice]"
+pip3 install -U "nextcord[voice]"
 
-python3 install stackapi
+pip3 install stackapi
 ```
 *Windows:*
 ```
