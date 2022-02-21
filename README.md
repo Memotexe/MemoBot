@@ -22,6 +22,7 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
 ## Client Listeners:
 * Reaction Roles:
   - When a user adds or removes a specific reaction on a defined message in the server it will manage the user's roles by adding or removing them from it. The server uses role reactions to limit what people wish to see on the server by topics/games that interest them.
+* Keywords said in chat might provide a meme! Who knows what the words are ¯\\__(ツ)_/¯
 
 ## Current Commands:
 * Lofi ; arg (Genre):
@@ -47,4 +48,3 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
   - Stack Overflow Quick Answer Command
 * Moderation Features:
   - Enhanced Ban and Kick
-  - Message Watcher(Protection against harsh/profanity-based word usage)
