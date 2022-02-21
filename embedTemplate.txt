@@ -1,9 +1,0 @@
-@client.command()
-async def embed(ctx):
-    embed = nextcord.Embed(title="Title",url="https://google.com", description="Description", color=0x343190)
-    embed.set_author(name=ctx.author.display_name, url="https://twitter.com", icon_url=ctx.author.avatar_url)
-    embed.set_thumbnail(url="https://instagram.com")
-    embed.add_field(name="Field 1", value="Value 1", inline=True)
-    embed.add_field(name="Field 2", value="Value 2", inline=True)
-    embed.set_footer(text="Footer")
-    await ctx.send(embed=embed)

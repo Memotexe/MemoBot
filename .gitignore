@@ -58,6 +58,7 @@ cover/
 
 #JSON Files
 *.json
+*.JSON
 
 # Translations
 *.mo

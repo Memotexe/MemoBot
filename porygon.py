@@ -86,7 +86,6 @@ async def on_raw_reaction_add(payload):
          
             if member is not None:
                 await member.add_roles(role)
-                print("Done")
             else:
                 print("Member Not Found.")
         else:
@@ -133,18 +132,11 @@ async def on_raw_reaction_remove(payload):
             role = nextcord.utils.get(guild.roles, name='Pink')
         else:
             role = nextcord.utils.get(guild.roles, name = payload.emoji.name)
-
-        print("Role Removed:")
-        print(role)
         
         if role is not None:
             member = await(await client.fetch_guild(payload.guild_id)).fetch_member(payload.user_id)
-            print("Member Removed:")
-            print(member)
-            
             if member is not None:
                 await member.remove_roles(role)
-                print("Done")
             else:
                 print("Member Not Found.")
         else:
@@ -348,8 +340,6 @@ async def purge(interaction: Interaction, amount: int):
     await interaction.channel.purge(limit = amount)
     await interaction.response.send_message(f"Trash was taken out. {amount} messages deleted")
 
-#CHECK FOR UNWELCOME PROFANITY
-#ENHANCE BAN OR KICK
 
 @client.slash_command(guild_ids=[SERVERID], description="Provides you with the information available about commands with Porygon-B")
 async def help(interaction:Interaction):
@@ -380,21 +370,6 @@ async def help(interaction:Interaction):
 async def on_command_error(interaction:Interaction,error):
     if isinstance(error,commands.MissingPermissions):
         await interaction.response.send_message("You are not allowed to use that command")
-
-
-# """
-# .########...#######..##....##.########.########..########.##.....##
-# .##.....##.##.....##.##...##..##.......##.....##.##........##...##.
-# .##.....##.##.....##.##..##...##.......##.....##.##.........##.##..
-# .########..##.....##.#####....######...##.....##.######......###...
-# .##........##.....##.##..##...##.......##.....##.##.........##.##..
-# .##........##.....##.##...##..##.......##.....##.##........##...##.
-# .##.........#######..##....##.########.########..########.##.....##
-# """
-
-
-
-
 
 
 # """
