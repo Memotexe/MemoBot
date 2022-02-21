@@ -29,7 +29,6 @@ async def on_ready():
     print("Porygon is up and running!")
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name='Type /Help for Commands'))
 
-
 # """
 # .########..########....###.....######..########.####..#######..##....##....########...#######..##.......########
 # .##.....##.##.........##.##...##....##....##.....##..##.....##.###...##....##.....##.##.....##.##.......##......
