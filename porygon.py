@@ -1,3 +1,4 @@
+from aiohttp import JsonPayload
 import nextcord
 from nextcord.ext import commands, tasks
 from nextcord import member
@@ -9,6 +10,7 @@ import random
 from datetime import date
 import math, decimal, datetime
 from stackapi import StackAPI
+import pandas as pd
 
 dec = decimal.Decimal
 
@@ -404,10 +406,34 @@ async def on_command_error(interaction:Interaction,error):
 # .##....##....##....##.....##.##....##.##...##..##.....##...##.##...##.......##....##..##.......##.......##.....##.##..##..##
 # ..######.....##....##.....##..######..##....##..#######.....###....########.##.....##.##.......########..#######...###..###.
 # """
-#pip install stackapi
-# SITE = StackAPI("stackoverflow")
-# SITE.max_pages(2)
-# SITE.page_size=100
-# questions = SITE.fetch('questions', min=10, sort='votes')
+
+@client.slash_command(guild_ids=[SERVERID], description="Searches StackOverFlow for Keywords Provided!")
+async def stack(interaction:Interaction, arg):
+    stackTitles = []
+    stackLinks=[]
+    SITE = StackAPI("stackoverflow")
+    SITE.max_pages = 1
+    SITE.page_size=5
+    title_search = arg
+    response = SITE.fetch('search/advanced', title = title_search, sort='votes')
+    data = json.dumps(response, indent=4)
+    jsonData = json.loads(data)
+
+    for i in jsonData['items']:
+        stackTitles.append(i['title'])
+        stackLinks.append(i['link'])
+    
+    embed = nextcord.Embed(title="Results!", description="Your Search: "+ arg, color=0x343190)
+    embed.set_author(name="StackOverFlow")
+    embed.set_thumbnail(url="https://pbs.twimg.com/profile_images/1530033914/137porygon_200x200.png")
+    embed.set_footer(text="These results are formed by StackAPI")
+    
+    j=0
+    for i in stackTitles:
+            embed.add_field(name=i, value=stackLinks[j] ,inline=False)
+            j=j+1
+
+    await interaction.response.send_message(embed=embed)
+
 
 client.run(DISCORD_TOKEN)

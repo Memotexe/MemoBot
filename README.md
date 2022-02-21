@@ -10,12 +10,16 @@ Discord bot named **Porygon-D** created using [Nextcord](https://github.com/next
 python3 -m pip install -U nextcord
  
 python3 -m pip install -U "nextcord[voice]"
+
+python3 install stackapi
 ```
 *Windows:*
 ```
 pip install -U nextcord :: pip3 install -U nextcord :: py -3 -m pip install -U nextcord
 
 pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m pip install -U nextcord[voice]
+
+pip install stackapi
 ```
 **NOTE:** Its important to mention the work I've done was on Python `v3.10.0`, I cannot gaurantee that any other version of Python will work
 
@@ -26,11 +30,11 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
 
 ## Current Commands:
 * Lofi ; arg (Genre):
-  - This command will take an argument based on a genre of Lofi and with that join the Lofi and Vibe channel in the discord and play music
+  - This command will take an argument based on a genre of Lofi and with that join the Lofi and Vibe channel in the discord and play music.
   - Commands for Lofi:
-   - Pause: Pauses the music
-   - Resume: Resumes the music
-   - Leave: Tells the bot to leave the VC (Voice Channel)
+   - Pause: Pauses the music.
+   - Resume: Resumes the music.
+   - Leave: Tells the bot to leave the VC (Voice Channel).
 * Dice ; arg (Sides):
   - Its as it seems, give this bot the argument of the sided dice you wish to roll and it will give you a result!
 * Friday ; arg (Member):
@@ -41,10 +45,11 @@ pip install -U nextcord[voice] :: pip 3 install -U nextcord[voice] :: py -3 -m p
   - Responds with a embedded message giving all the commands that Porygon has with a description about them.
 * Riro ; arg (Member):
   - Only if the stars align will this work.
+* Stack ; arg (tags/topics) :
+  - This call utilizes the StackAPI import to search StackOverFlow and return Titles and Links related to what you put in your argument.
 
 ## To-Do's:
 * Large Features:
-  - Creation of Pokedex Command that will listen for the pokemon and return an embed of some light information along with links to Serebii's Page
-  - Stack Overflow Quick Answer Command
+  - Creation of Pokedex Command that will listen for the pokemon and return an embed of some light information along with links to Serebii's Page.
 * Moderation Features:
-  - Enhanced Ban and Kick
+  - Enhanced Ban and Kick.
