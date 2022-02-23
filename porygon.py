@@ -1,3 +1,5 @@
+from ast import arg
+from asyncio.windows_events import NULL
 from aiohttp import JsonPayload
 import nextcord
 from nextcord.ext import commands, tasks
@@ -9,8 +11,10 @@ import json
 import random
 from datetime import date
 import math, decimal, datetime
+from numpy import _FlatIterSelf, NaN
 from stackapi import StackAPI
 import pandas as pd
+import csv
 
 dec = decimal.Decimal
 
@@ -354,6 +358,7 @@ async def help(interaction:Interaction):
     embed.add_field(name="/Purge", value="Arg: Amount :: Only Works if you are a Mod, but will clear messages given the amount provided.",inline=False)
     embed.add_field(name="/Stack", value="Arg: (tags/topics) :: Based on what you put as the argument, Porygon will use StackAPI to scan StackOverFlow and return relatable links.",inline=False)
     embed.add_field(name="/Riro", value="Arg: @(Member) :: The allignment of stars and planets will make this command work.",inline=False)
+    embed.add_field(name="/Pokedex", value="Arg: Pokemon Name :: Takes the argument provides some base information on the pokemon as well as a link to the National Dex Data on Serebii.",inline=False)
     embed.set_footer(text="If you have any command suggestions let me know! - Memotexe")
     await interaction.response.send_message(embed=embed)
 
@@ -421,6 +426,63 @@ async def stack(interaction:Interaction, arg):
 # .##.........#######..##....##.########.########..########.##.....##
 # """
 
+@client.slash_command(guild_ids=[SERVERID], description="Provides Dex Information About Pokemon, and a Link to Serebii's National Dex of that Pokemon!")
+async def pokedex(interaction:Interaction, arg):
+    NatDexNumber=""
+    Name=""
+    T1=""
+    T2=""
+    Ability1=""
+    Ability2=""
+    HiddenAbility=""
+    lines = len(list(df))
+    i = 0
+
+    with open("pokemons.csv") as csv_file:
+        csv_reader = csv.reader(csv_file)
+        df = pd.DataFrame([csv_reader], index = None)
+
+    while i < lines:
+        for val in list(df[i]):
+            if arg.lower() == val[1].lower():
+                NatDexNumber=val[0]
+                Name=val[1]
+                T1=val[2]
+                T2=val[3]
+                Ability1=val[4]
+                Ability2=val[5] 
+                HiddenAbility=val[6]
+         
+            i=i+1
+    
+    #Condition Checking for Blank/Null Values on Abilities and Types
+    if Ability2 == "" or Ability2 == NULL or Ability2 == NaN or Ability2 == "NaN":
+        Ability2="None"
+    if HiddenAbility == "" or HiddenAbility == NULL or HiddenAbility == NaN or HiddenAbility == "NaN":
+        HiddenAbility="None"
+    if T2 == "" or T2 == NULL or T2 == NaN or T2 == "NaN":
+        T2="None"
+
+    numberDex = NatDexNumber.replace("#","")
+    NatDex7 = "serebii.net/pokedex-sm/"
+    NatDex8 = "serebii.net/pokedex-swsh/"
+    link=""
+    if(int(numberDex) > 809):
+        link = NatDex8 + Name.lower() +"/"
+    if(int(numberDex) < 809):
+        link = NatDex7+numberDex+".shtml"
+
+    embed = nextcord.Embed(title="National Dex : " + arg.capitlize() ,url=link, description="National Pokedex Number: " + numberDex, color=0x343190)
+    embed.set_author(name="Serebii")
+    embed.set_thumbnail(url="https://play.pokemonshowdown.com/sprites/ani/" + Name.lower()+ ".gif")
+    embed.add_field(name="Types", inline=False)
+    embed.add_field(name="Type 1:", value=T1 ,inline=True)
+    embed.add_field(name="Type 2:", value=T2 ,inline=True)
+    embed.add_field(name="Abilities", inline=False)
+    embed.add_field(name="Ability 1:", value=Ability1 ,inline=True)
+    embed.add_field(name="Ability 2:", value=Ability2 ,inline=True)
+    embed.add_field(name="Hidden Ability:", value=HiddenAbility ,inline=True)
+    await interaction.response.send_message(embed=embed)
 
 
 client.run(DISCORD_TOKEN)
