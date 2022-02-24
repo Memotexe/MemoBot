@@ -55,11 +55,15 @@ cover/
 *.mp4
 *.mp3
 *.m4a
-
+#CSVs
+*.csv
 #JSON Files
 *.json
 *.JSON
-
+#GIFS
+*.gif
+#PNGs
+*.png
 # Translations
 *.mo
 *.pot

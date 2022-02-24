@@ -1,3 +1,5 @@
+from ast import arg
+from asyncio.windows_events import NULL
 from aiohttp import JsonPayload
 import nextcord
 from nextcord.ext import commands, tasks
@@ -9,8 +11,10 @@ import json
 import random
 from datetime import date
 import math, decimal, datetime
+from numpy import NaN
 from stackapi import StackAPI
 import pandas as pd
+import csv
 
 dec = decimal.Decimal
 
@@ -354,6 +358,7 @@ async def help(interaction:Interaction):
     embed.add_field(name="/Purge", value="Arg: Amount :: Only Works if you are a Mod, but will clear messages given the amount provided.",inline=False)
     embed.add_field(name="/Stack", value="Arg: (tags/topics) :: Based on what you put as the argument, Porygon will use StackAPI to scan StackOverFlow and return relatable links.",inline=False)
     embed.add_field(name="/Riro", value="Arg: @(Member) :: The allignment of stars and planets will make this command work.",inline=False)
+    embed.add_field(name="/Pokedex", value="Arg: Pokemon Name :: Takes the argument provides some base information on the pokemon as well as a link to the National Dex Data on Serebii.",inline=False)
     embed.set_footer(text="If you have any command suggestions let me know! - Memotexe")
     await interaction.response.send_message(embed=embed)
 
@@ -410,6 +415,98 @@ async def stack(interaction:Interaction, arg):
             j=j+1
 
     await interaction.response.send_message(embed=embed)
+
+# """
+# .########...#######..##....##.########.########..########.##.....##
+# .##.....##.##.....##.##...##..##.......##.....##.##........##...##.
+# .##.....##.##.....##.##..##...##.......##.....##.##.........##.##..
+# .########..##.....##.#####....######...##.....##.######......###...
+# .##........##.....##.##..##...##.......##.....##.##.........##.##..
+# .##........##.....##.##...##..##.......##.....##.##........##...##.
+# .##.........#######..##....##.########.########..########.##.....##
+# """
+
+@client.slash_command(guild_ids=[SERVERID], description="Provides Dex Information About Pokemon, and a Link to Serebii's National Dex of that Pokemon!")
+async def pokedex(interaction:Interaction, arg):
+    with suppress(Exception):
+        NatDexNumber=""
+        Name=""
+        T1=""
+        T2=""
+        Ability1=""
+        Ability2=""
+        HiddenAbility=""
+        i = 0
+
+        with open("pokemons.csv") as csv_file:
+            csv_reader = csv.reader(csv_file)
+            df = pd.DataFrame([csv_reader], index = None)
+
+        lines = len(list(df))
+        while i < lines:
+            for val in list(df[i]):
+                if arg.lower() == val[1].lower():
+                    NatDexNumber=val[0]
+                    Name=val[1]
+                    T1=val[2]
+                    T2=val[3]
+                    Ability1=val[4]
+                    Ability2=val[5] 
+                    HiddenAbility=val[6]
+         
+                i=i+1
+    
+        if Name == "" or Name == NULL or Name == "NaN":
+            await interaction.response.send_message("Pokemon doesnt Exist or you spelled it wrong, Check it and Try Again!")
+
+        
+        #Condition Checking for Blank/Null Values on Abilities and Types
+        if Ability2 == "" or Ability2 == NULL or Ability2 == "NaN":
+            Ability2="None"
+        if HiddenAbility == "" or HiddenAbility == NULL or HiddenAbility == "NaN":
+            HiddenAbility="None"
+        if T2 == "" or T2 == NULL or  T2 == "NaN":
+            T2="None"
+
+        numberDex = NatDexNumber.replace("#","")
+        nameReplace = Name.replace("-","")
+        NatDex7 = "https://serebii.net/pokedex-sm/"
+        NatDex8 = "https://serebii.net/pokedex-swsh/"
+        link=""
+        if(int(numberDex) > 809):
+            link = NatDex8 + Name.lower() +"/"
+        if(int(numberDex) < 809):
+            link = NatDex7+numberDex+".shtml"
+            
+        embed = nextcord.Embed(title="National Dex : " + arg,url=link, description="National Pokedex Number: " + numberDex, color=0x343190)
+        embed.set_author(name="Serebii")
+
+        if Name.lower() == "wyrdeer":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/899.png")
+        elif Name.lower() == "kleavor":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/900.png")
+        elif Name.lower() == "ursaluna":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/901.png")
+        elif Name.lower() == "basculegion":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/902.png")
+        elif Name.lower() == "sneasler":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/903.png")
+        elif Name.lower() == "overqwil":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/904.png")
+        elif Name.lower() == "enamorus":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/905.png")
+        else:
+            embed.set_thumbnail(url="https://play.pokemonshowdown.com/sprites/ani/" + nameReplace.lower()+ ".gif")
+        
+        embed.add_field(name="Types", value=arg + "'s Typing:",inline=False)
+        embed.add_field(name="Type 1:", value=T1 ,inline=True)
+        embed.add_field(name="Type 2:", value=T2 ,inline=True)
+        embed.add_field(name="Abilities", value =arg + "'s Abilities:",inline=False)
+        embed.add_field(name="Ability 1:", value=Ability1 ,inline=True)
+        embed.add_field(name="Ability 2:", value=Ability2 ,inline=True)
+        embed.add_field(name="Hidden Ability:", value=HiddenAbility ,inline=True)
+        embed.set_footer(text="Hyperlink and .pngs courtesy of Serebii, all .gifs courtesy of Pokemon ShowDown")
+        await interaction.response.send_message(embed=embed)
 
 
 client.run(DISCORD_TOKEN)

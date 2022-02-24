@@ -51,9 +51,8 @@ pip install pandas
   - Only if the stars align will this work.
 * Stack ; arg (tags/topics) :
   - This call utilizes the StackAPI import to search StackOverFlow and return Titles and Links related to what you put in your argument.
-
+* Pokedex ; arg (Pokemon's Name):
+  - This will return a light entry about the Pokemon you entered, along with a link to the National Dex of said Pokemon courtesy of Serebii
 ## To-Do's:
-* Large Features:
-  - Creation of Pokedex Command that will listen for the pokemon and return an embed of some light information along with links to Serebii's Page.
 * Moderation Features:
   - Enhanced Ban and Kick.
