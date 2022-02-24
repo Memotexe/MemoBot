@@ -505,6 +505,7 @@ async def pokedex(interaction:Interaction, arg):
         embed.add_field(name="Ability 1:", value=Ability1 ,inline=True)
         embed.add_field(name="Ability 2:", value=Ability2 ,inline=True)
         embed.add_field(name="Hidden Ability:", value=HiddenAbility ,inline=True)
+        embed.set_footer(text="Hyperlink and .pngs courtesy of Serebii, all .gifs courtesy of Pokemon ShowDown")
         await interaction.response.send_message(embed=embed)
 
 
