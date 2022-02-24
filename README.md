@@ -43,7 +43,7 @@ pip install pandas
   - Its as it seems, give this bot the argument of the sided dice you wish to roll and it will give you a result!
 * Friday ; arg (Member):
   - A command to only be called on Friday >.>
-* Purge ; arg (Amount):
+* Purge ; arg (Amount) (UNDER CONSTRUCTION):
   - Given the amount, it will delete messages in the channel it was called in.
 * Help:
   - Responds with a embedded message giving all the commands that Porygon has with a description about them.
