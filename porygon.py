@@ -11,7 +11,7 @@ import json
 import random
 from datetime import date
 import math, decimal, datetime
-from numpy import _FlatIterSelf, NaN
+from numpy import NaN
 from stackapi import StackAPI
 import pandas as pd
 import csv
@@ -428,61 +428,84 @@ async def stack(interaction:Interaction, arg):
 
 @client.slash_command(guild_ids=[SERVERID], description="Provides Dex Information About Pokemon, and a Link to Serebii's National Dex of that Pokemon!")
 async def pokedex(interaction:Interaction, arg):
-    NatDexNumber=""
-    Name=""
-    T1=""
-    T2=""
-    Ability1=""
-    Ability2=""
-    HiddenAbility=""
-    lines = len(list(df))
-    i = 0
+    with suppress(Exception):
+        NatDexNumber=""
+        Name=""
+        T1=""
+        T2=""
+        Ability1=""
+        Ability2=""
+        HiddenAbility=""
+        i = 0
 
-    with open("pokemons.csv") as csv_file:
-        csv_reader = csv.reader(csv_file)
-        df = pd.DataFrame([csv_reader], index = None)
+        with open("pokemons.csv") as csv_file:
+            csv_reader = csv.reader(csv_file)
+            df = pd.DataFrame([csv_reader], index = None)
 
-    while i < lines:
-        for val in list(df[i]):
-            if arg.lower() == val[1].lower():
-                NatDexNumber=val[0]
-                Name=val[1]
-                T1=val[2]
-                T2=val[3]
-                Ability1=val[4]
-                Ability2=val[5] 
-                HiddenAbility=val[6]
+        lines = len(list(df))
+        while i < lines:
+            for val in list(df[i]):
+                if arg.lower() == val[1].lower():
+                    NatDexNumber=val[0]
+                    Name=val[1]
+                    T1=val[2]
+                    T2=val[3]
+                    Ability1=val[4]
+                    Ability2=val[5] 
+                    HiddenAbility=val[6]
          
-            i=i+1
+                i=i+1
     
-    #Condition Checking for Blank/Null Values on Abilities and Types
-    if Ability2 == "" or Ability2 == NULL or Ability2 == NaN or Ability2 == "NaN":
-        Ability2="None"
-    if HiddenAbility == "" or HiddenAbility == NULL or HiddenAbility == NaN or HiddenAbility == "NaN":
-        HiddenAbility="None"
-    if T2 == "" or T2 == NULL or T2 == NaN or T2 == "NaN":
-        T2="None"
+        if Name == "" or Name == NULL or Name == "NaN":
+            await interaction.response.send_message("Pokemon doesnt Exist or you spelled it wrong, Check it and Try Again!")
 
-    numberDex = NatDexNumber.replace("#","")
-    NatDex7 = "serebii.net/pokedex-sm/"
-    NatDex8 = "serebii.net/pokedex-swsh/"
-    link=""
-    if(int(numberDex) > 809):
-        link = NatDex8 + Name.lower() +"/"
-    if(int(numberDex) < 809):
-        link = NatDex7+numberDex+".shtml"
+        
+        #Condition Checking for Blank/Null Values on Abilities and Types
+        if Ability2 == "" or Ability2 == NULL or Ability2 == "NaN":
+            Ability2="None"
+        if HiddenAbility == "" or HiddenAbility == NULL or HiddenAbility == "NaN":
+            HiddenAbility="None"
+        if T2 == "" or T2 == NULL or  T2 == "NaN":
+            T2="None"
 
-    embed = nextcord.Embed(title="National Dex : " + arg.capitlize() ,url=link, description="National Pokedex Number: " + numberDex, color=0x343190)
-    embed.set_author(name="Serebii")
-    embed.set_thumbnail(url="https://play.pokemonshowdown.com/sprites/ani/" + Name.lower()+ ".gif")
-    embed.add_field(name="Types", inline=False)
-    embed.add_field(name="Type 1:", value=T1 ,inline=True)
-    embed.add_field(name="Type 2:", value=T2 ,inline=True)
-    embed.add_field(name="Abilities", inline=False)
-    embed.add_field(name="Ability 1:", value=Ability1 ,inline=True)
-    embed.add_field(name="Ability 2:", value=Ability2 ,inline=True)
-    embed.add_field(name="Hidden Ability:", value=HiddenAbility ,inline=True)
-    await interaction.response.send_message(embed=embed)
+        numberDex = NatDexNumber.replace("#","")
+        nameReplace = Name.replace("-","")
+        NatDex7 = "https://serebii.net/pokedex-sm/"
+        NatDex8 = "https://serebii.net/pokedex-swsh/"
+        link=""
+        if(int(numberDex) > 809):
+            link = NatDex8 + Name.lower() +"/"
+        if(int(numberDex) < 809):
+            link = NatDex7+numberDex+".shtml"
+            
+        embed = nextcord.Embed(title="National Dex : " + arg,url=link, description="National Pokedex Number: " + numberDex, color=0x343190)
+        embed.set_author(name="Serebii")
+
+        if Name.lower() == "wyrdeer":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/899.png")
+        elif Name.lower() == "kleavor":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/900.png")
+        elif Name.lower() == "ursaluna":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/901.png")
+        elif Name.lower() == "basculegion":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/902.png")
+        elif Name.lower() == "sneasler":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/903.png")
+        elif Name.lower() == "overqwil":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/904.png")
+        elif Name.lower() == "enamorus":
+            embed.set_thumbnail(url="https://www.serebii.net/swordshield/pokemon/905.png")
+        else:
+            embed.set_thumbnail(url="https://play.pokemonshowdown.com/sprites/ani/" + nameReplace.lower()+ ".gif")
+        
+        embed.add_field(name="Types", value=arg + "'s Typing:",inline=False)
+        embed.add_field(name="Type 1:", value=T1 ,inline=True)
+        embed.add_field(name="Type 2:", value=T2 ,inline=True)
+        embed.add_field(name="Abilities", value =arg + "'s Abilities:",inline=False)
+        embed.add_field(name="Ability 1:", value=Ability1 ,inline=True)
+        embed.add_field(name="Ability 2:", value=Ability2 ,inline=True)
+        embed.add_field(name="Hidden Ability:", value=HiddenAbility ,inline=True)
+        await interaction.response.send_message(embed=embed)
 
 
 client.run(DISCORD_TOKEN)
