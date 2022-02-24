@@ -1,5 +1,4 @@
 from ast import arg
-from asyncio.windows_events import NULL
 from aiohttp import JsonPayload
 import nextcord
 from nextcord.ext import commands, tasks
@@ -456,16 +455,16 @@ async def pokedex(interaction:Interaction, arg):
          
                 i=i+1
     
-        if Name == "" or Name == NULL or Name == "NaN":
+        if Name == "" or Name == "NaN":
             await interaction.response.send_message("Pokemon doesnt Exist or you spelled it wrong, Check it and Try Again!")
 
         
         #Condition Checking for Blank/Null Values on Abilities and Types
-        if Ability2 == "" or Ability2 == NULL or Ability2 == "NaN":
+        if Ability2 == "" or Ability2 == "NaN":
             Ability2="None"
-        if HiddenAbility == "" or HiddenAbility == NULL or HiddenAbility == "NaN":
+        if HiddenAbility == "" or HiddenAbility == "NaN":
             HiddenAbility="None"
-        if T2 == "" or T2 == NULL or  T2 == "NaN":
+        if T2 == "" or  T2 == "NaN":
             T2="None"
 
         numberDex = NatDexNumber.replace("#","")
