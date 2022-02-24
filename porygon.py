@@ -1,4 +1,5 @@
 from ast import arg
+
 from aiohttp import JsonPayload
 import nextcord
 from nextcord.ext import commands, tasks
@@ -336,12 +337,18 @@ async def resume(interaction: Interaction):
 # .##.....##..#######..########..########.##.....##.##.....##....##....####..#######..##....##
 # """
 
-@client.slash_command(guild_ids=[SERVERID], description="Clears Messages based on amount given")
-@commands.has_permissions(manage_messages=True)
-async def purge(interaction: Interaction, amount: int):
-    await interaction.channel.purge(limit = amount)
-    await interaction.response.send_message(f"Trash was taken out. {amount} messages deleted")
-
+# @client.slash_command(guild_ids=[SERVERID], description="Clears Messages based on amount given")
+# @commands.has_guild_permissions(manage_messages=True)
+# async def purge(interaction: Interaction, amount: int):
+#     if amount < 0:
+#         await interaction.response.send_message("Please enter a positive number!")
+#     elif amount > 0 and amount <= 100:
+#         await interaction.channel.purge(limit = amount)
+#         await interaction.response.send_message(f"Trash was taken out. {amount} messages deleted")
+#     elif amount == 0:
+#         await interaction.response.send_message("I cant delete nothing -_-")
+#     else:
+#         await interaction.response.send_message("Please enter a valid number that is greater than 0 but less than or equal to 100.")
 
 @client.slash_command(guild_ids=[SERVERID], description="Provides you with the information available about commands with Porygon-B")
 async def help(interaction:Interaction):
@@ -354,7 +361,7 @@ async def help(interaction:Interaction):
     embed.add_field(name="/Leave", value="Leaves the Lofi VC when called.",inline=True)
     embed.add_field(name="/Friday", value="Arg: @(Member) :: Its a Friday Thing.",inline=False)
     embed.add_field(name="/Dice", value="Arg: (3,6,8,10,12,20) :: Porygon will roll a virtual dice based on the dice you chose.",inline=False)
-    embed.add_field(name="/Purge", value="Arg: Amount :: Only Works if you are a Mod, but will clear messages given the amount provided.",inline=False)
+#:    embed.add_field(name="/Purge", value="Arg: Amount :: Only Works if you are a Mod, but will clear messages given the amount provided.",inline=False)
     embed.add_field(name="/Stack", value="Arg: (tags/topics) :: Based on what you put as the argument, Porygon will use StackAPI to scan StackOverFlow and return relatable links.",inline=False)
     embed.add_field(name="/Riro", value="Arg: @(Member) :: The allignment of stars and planets will make this command work.",inline=False)
     embed.add_field(name="/Pokedex", value="Arg: Pokemon Name :: Takes the argument provides some base information on the pokemon as well as a link to the National Dex Data on Serebii.",inline=False)
